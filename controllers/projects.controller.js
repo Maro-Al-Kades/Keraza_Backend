@@ -91,13 +91,17 @@ module.exports.getAllProjects = asyncHandler(async (req, res) => {
 ~ @access Public
 ~----------------------------------------------
 */
+
 module.exports.getSingleProject = asyncHandler(async (req, res) => {
   const project = await Project.findById(req.params.id)
     .populate("user", ["-password", "-__v"])
-    .populate("comments");
+    .populate("comments")
+    .populate("category");  // إضافة populate لتصنيف المشروع
+    
   if (!project) {
     return res.status(404).json({ message: "لم يتم العثور علي المشروع" });
   }
+  
   res.status(200).json({ connection: "Success", project });
 });
 

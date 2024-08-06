@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { Category, validateCreateCategory } = require("../models/Category");
 const { Project } = require("../models/Project");
+const { default: mongoose } = require("mongoose");
 
 /*
 ~----------------------------------------------
@@ -49,14 +50,26 @@ module.exports.getAllCategories = asyncHandler(async (req, res) => {
 */
 
 module.exports.getSingleCategory = asyncHandler(async (req, res) => {
-  const singleCategory = await Category.findById(req.params.id).select("-__v");
-  const projects = await Project.find({
-    category: singleCategory.title,
-  }).select("-__v");
+  const categoryId = req.params.id;
 
-  res
-    .status(200)
-    .json({ message: "تم جلب البيانات بنجاح", singleCategory, projects });
+  // تحقق من صحة المعرف
+  if (!categoryId || !mongoose.Types.ObjectId.isValid(categoryId)) {
+    return res.status(400).json({ message: 'معرف غير صالح' });
+  }
+
+  const singleCategory = await Category.findById(categoryId).select('-__v');
+
+  if (!singleCategory) {
+    return res.status(404).json({ message: 'الفئة غير موجودة' });
+  }
+
+  const projects = await Project.find({ category: singleCategory.title }).select('-__v');
+
+  res.status(200).json({
+    message: 'تم جلب البيانات بنجاح',
+    singleCategory,
+    projects,
+  });
 });
 /*
 ~----------------------------------------------

@@ -1,6 +1,3 @@
-//~ PROJECT_NAME = مهرجان الكرازة بكنيسة العذراء مريم والقديس مارمينا
-//~ AUTHOR = Maro Asam
-
 const express = require("express");
 const database = require("./config/database");
 require("dotenv").config();
@@ -17,27 +14,36 @@ database();
 
 const app = express();
 
-//~ MIDDLEWARES
+//~ ميدل وير لتفسير JSON
 app.use(express.json());
 
-//~ CORS
+//~ إعدادات CORS
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow all origins
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allow all HTTP methods
-    credentials: true, // Enable credentials (cookies)
-    exposedHeaders: ["X-Total-Count"], // Expose the total count of records in the response header
+    origin: "http://localhost:3000", // السماح بالطلبات من هذا الأصل
+    methods: ["GET", "POST", "PUT", "DELETE"], // السماح بكل أنواع الطلبات
+    credentials: true, // السماح بإرسال ملفات تعريف الارتباط (cookies)
+    exposedHeaders: ["X-Total-Count"], // تعريض رأس خاص بعدد السجلات في الاستجابة
   })
 );
 
-//~ ROUTES
+//~ إعداد رؤوس CORS يدويًا
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
+//~ تعريف التوجيهات (Routes)
 app.use("/api/auth", AuthRouter);
 app.use("/api/users", UsersRouter);
 app.use("/api/projects", ProjectsRouter);
 app.use("/api/comments", CommentsRouter);
 app.use("/api/categories", CategoriesRouter);
 
-//! ERROR HANDLING MIDDLEWARES
+//! ميدل وير لمعالجة الأخطاء
 app.use(notFound);
 app.use(errorHandler);
 
