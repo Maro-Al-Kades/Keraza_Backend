@@ -59,7 +59,8 @@ module.exports.updateUserProfile = asyncHandler(async (req, res) => {
     { new: true }
   )
     .select("-password")
-    .select("-__v");
+    .select("-__v")
+    .populate("projects")
 
   res.status(200).json({ message: "تم تغيير كلمة المرور بنجاح", updatedUser });
 });
@@ -132,7 +133,9 @@ module.exports.deleteUserProfile = asyncHandler(async (req, res) => {
   }
 
   //~ 05- DELETE THE PROFILE PIC FROM CLOUDINARY
-  await cloudinaryRemoveImage(user.profilePhoto.publicId);
+  if (user.profilePhoto.publicId !== null) {
+    await cloudinaryRemoveImage(user.profilePhoto.publicId);
+  }
 
   //~ 06- DELETE USER PROJECTS AND COMMENTS
   await Project.deleteMany({ user: user._id });
