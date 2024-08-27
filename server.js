@@ -25,6 +25,10 @@ app.use(
   })
 );
 
+app.get('/', (req, res) => {
+  res.send('Keraza Application')
+})
+
 app.use("/api/auth", AuthRouter);
 app.use("/api/users", UsersRouter);
 app.use("/api/projects", ProjectsRouter);
