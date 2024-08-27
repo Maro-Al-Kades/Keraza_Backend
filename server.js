@@ -19,9 +19,9 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "*", // السماح بالطلبات من هذا الأصل المحدد
+    origin: "http://localhost:3000", // السماح فقط بالطلبات من هذا الأصل المحدد
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // السماح بإرسال ملفات تعريف الارتباط
+    credentials: true,
     exposedHeaders: ["X-Total-Count"],
   })
 );
