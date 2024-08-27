@@ -17,13 +17,12 @@ const app = express();
 //~ ميدل وير لتفسير JSON
 app.use(express.json());
 
-//~ إعدادات CORS
 app.use(
   cors({
-    origin: "http://localhost:3000", // السماح بالطلبات من هذا الأصل
-    methods: ["GET", "POST", "PUT", "DELETE"], // السماح بكل أنواع الطلبات
-    credentials: true, // السماح بإرسال ملفات تعريف الارتباط (cookies)
-    exposedHeaders: ["X-Total-Count"], // تعريض رأس خاص بعدد السجلات في الاستجابة
+    origin: "http://localhost:3000", // السماح بالطلبات من هذا الأصل المحدد
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // السماح بإرسال ملفات تعريف الارتباط
+    exposedHeaders: ["X-Total-Count"],
   })
 );
 
