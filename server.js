@@ -23,6 +23,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     exposedHeaders: ["X-Total-Count"],
+    "Access-Control-Allow-Origin" : "*"
   })
 );
 
