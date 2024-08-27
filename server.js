@@ -27,14 +27,20 @@ app.use(
   })
 );
 
+
 //~ إعداد رؤوس CORS يدويًا
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", "https://keraza-frontend.vercel.app");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
+
+app.get("/", (req, res) => {
+  res.send("Welcome to Keraza API ✅");
+})
+
 
 //~ تعريف التوجيهات (Routes)
 app.use("/api/auth", AuthRouter);
