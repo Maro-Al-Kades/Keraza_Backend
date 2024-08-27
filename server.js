@@ -14,21 +14,29 @@ database();
 
 const app = express();
 
+//~ ميدل وير لتفسير JSON
 app.use(express.json());
 
+//~ إعدادات CORS
 app.use(
   cors({
-    origin: "*", // السماح بالطلبات من أي أصل
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-    exposedHeaders: ["X-Total-Count"],
+    origin: "https://keraza-frontend.vercel.app", // السماح بالطلبات من هذا الأصل
+    methods: ["GET", "POST", "PUT", "DELETE"], // السماح بكل أنواع الطلبات
+    credentials: true, // السماح بإرسال ملفات تعريف الارتباط (cookies)
+    exposedHeaders: ["X-Total-Count"], // تعريض رأس خاص بعدد السجلات في الاستجابة
   })
 );
 
-app.get('/', (req, res) => {
-  res.send('Keraza Application')
-})
+//~ إعداد رؤوس CORS يدويًا
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
 
+//~ تعريف التوجيهات (Routes)
 app.use("/api/auth", AuthRouter);
 app.use("/api/users", UsersRouter);
 app.use("/api/projects", ProjectsRouter);
