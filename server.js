@@ -14,20 +14,17 @@ database();
 
 const app = express();
 
-//~ ميدل وير لتفسير JSON
 app.use(express.json());
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // السماح فقط بالطلبات من هذا الأصل المحدد
+    origin: "*", // السماح بالطلبات من أي أصل
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     exposedHeaders: ["X-Total-Count"],
-    "Access-Control-Allow-Origin" : "*"
   })
 );
 
-//~ تعريف التوجيهات (Routes)
 app.use("/api/auth", AuthRouter);
 app.use("/api/users", UsersRouter);
 app.use("/api/projects", ProjectsRouter);
