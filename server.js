@@ -20,10 +20,13 @@ app.use(express.json());
 //~ إعدادات CORS
 app.use(
   cors({
-    origin: "https://keraza-frontend.vercel.app", // السماح بالطلبات من هذا الأصل
-    methods: ["GET", "POST", "PUT", "DELETE"], // السماح بكل أنواع الطلبات
-    credentials: true, // السماح بإرسال ملفات تعريف الارتباط (cookies)
-    exposedHeaders: ["X-Total-Count"], // تعريض رأس خاص بعدد السجلات في الاستجابة
+    origin:[
+  'https://keraza-frontend.vercel.app',
+  'http://localhost:3000'
+]; 
+    methods: ["GET", "POST", "PUT", "DELETE"], 
+    credentials: true,
+    exposedHeaders: ["X-Total-Count"], 
   })
 );
 
