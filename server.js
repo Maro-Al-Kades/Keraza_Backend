@@ -23,7 +23,7 @@ app.use(
     origin:[
   'https://keraza-frontend.vercel.app',
   'http://localhost:3000'
-]; 
+],
     methods: ["GET", "POST", "PUT", "DELETE"], 
     credentials: true,
     exposedHeaders: ["X-Total-Count"], 
