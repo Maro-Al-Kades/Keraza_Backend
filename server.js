@@ -14,45 +14,30 @@ database();
 
 const app = express();
 
-//~ ميدل وير لتفسير JSON
 app.use(express.json());
 
-//~ إعدادات CORS
 app.use(
   cors({
-    origin:[
-  'https://keraza-frontend.vercel.app',
-  'http://localhost:3000'
-],
+    origin: [
+      'https://keraza-frontend.vercel.app',
+      'http://localhost:3000'
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"], 
     credentials: true,
     exposedHeaders: ["X-Total-Count"], 
   })
 );
 
-
-//~ إعداد رؤوس CORS يدويًا
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://keraza-frontend.vercel.app");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
-
 app.get("/", (req, res) => {
   res.send("Welcome to Keraza API ✅");
-})
+});
 
-
-//~ تعريف التوجيهات (Routes)
 app.use("/api/auth", AuthRouter);
 app.use("/api/users", UsersRouter);
 app.use("/api/projects", ProjectsRouter);
 app.use("/api/comments", CommentsRouter);
 app.use("/api/categories", CategoriesRouter);
 
-//! ميدل وير لمعالجة الأخطاء
 app.use(notFound);
 app.use(errorHandler);
 
